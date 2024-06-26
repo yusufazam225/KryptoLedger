@@ -2,7 +2,7 @@ import fs from 'fs'
 import csv from 'csv-parser'
 import sample from '../models/models.js'
 import { unlink } from 'fs/promises';
-
+import moment from 'moment'
 export const uploadCSV=async(req,res)=>{
    await sample.deleteMany({});
     const filePath=req.file.path;
@@ -32,7 +32,7 @@ export const uploadCSV=async(req,res)=>{
         })
     }
     else{
-        console.log('cant be done');
+        console.log('price or amount is NaN');
     }
     }).on('end',async()=>{
         await sample.insertMany(samples);
@@ -43,8 +43,8 @@ export const uploadCSV=async(req,res)=>{
 
 export const getfinalBalance = async (req, res) => {
     const { timestamp } = req.body; // Extract timestamp from the request body
-    const date = new Date(timestamp); // Convert timestamp to Date object
-  
+    // Convert timestamp to Date object
+    const date = moment(timestamp, 'YYYY-MM-DD HH:mm:ss').toDate();
     // Find all samples that occurred on or before the given timestamp
     const samples = await sample.find({ utc_time: { $lte: date } });
   
