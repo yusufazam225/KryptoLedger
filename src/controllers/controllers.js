@@ -1,12 +1,14 @@
 import fs from 'fs'
 import csv from 'csv-parser'
 import sample from '../models/models.js'
+import { unlink } from 'fs/promises';
 
-export const uploadCSV=(req,res)=>{
-    console.log(1);
+export const uploadCSV=async(req,res)=>{
+   await sample.deleteMany({});
     const filePath=req.file.path;
     const samples=[];
     //Read the csv file and parse its content
+    
     fs.createReadStream(filePath).pipe(csv())
     .on('data',(row)=>{
         const [crypto,currency]=row.Market.split('/');
@@ -35,7 +37,7 @@ export const uploadCSV=(req,res)=>{
     }).on('end',async()=>{
         await sample.insertMany(samples);
         res.status(200).send({message:'Data stored Succesfully'});
-        fs.unlinkSync(filePath);
+    fs.unlinkSync(filePath);
     })
 }
 
@@ -43,7 +45,7 @@ export const getfinalBalance = async (req, res) => {
     const { timestamp } = req.body; // Extract timestamp from the request body
     const date = new Date(timestamp); // Convert timestamp to Date object
   
-    // Find all trades that occurred on or before the given timestamp
+    // Find all samples that occurred on or before the given timestamp
     const samples = await sample.find({ utc_time: { $lte: date } });
   
     // Calculate balances of each asset

@@ -1,13 +1,12 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import multer from 'multer'
 import routes from './routes/routes.js'
 import connectDB from './db/index.js'
 dotenv.config({
     path:'./.env'
 })
 const app=express();
-const upload=multer({dest:'uploads/'});
+
 app.use(express.json());
 app.use('/api',routes);
 connectDB().then(()=>{
