@@ -55,9 +55,9 @@ router.post('/upload', upload.single('file'), uploadCSV);
  *             schema:
  *               type: object
  *               properties:
- *                 balance:
+ *                 BTC:
  *                   type: number
- *                   example: 1000.50
+ *                   example: 15
  *       400:
  *         description: Error in calculation.
  */

@@ -7,13 +7,13 @@ import swaggerUi from 'swagger-ui-express';
 const swaggerDefinition = {
   openapi: '3.0.1',
   info: {
-    title: 'Koinx assignment',
+    title: 'Koinx assignment by Yusuf Azam',
     version: '1.0.0',
     description: 'API for uploading and processing CSV files',
   },
   servers: [
     {
-      url: 'http://localhost:3000',
+      url: process.env.SWAGGER_URL,
     },
   ],
 };
